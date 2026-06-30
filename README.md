@@ -1,12 +1,12 @@
-# 🎓 SIRA - Student Insights & Resource Archive
+#  SIRA - Student Insights & Resource Archive
 
 > **Free, open-source student hub platform** | Built by students, for students
 
 SIRA is a lightweight, community-driven platform designed to help students succeed academically. It features a **GPA calculator** tailored to University of Westminster Honours degree classification, a **survival toolkit** with essential resources, and an **articles hub** where students can share wisdom with the community.
 
-## ✨ Features
+##  Features
 
-### 🧮 GPA Calculator
+###  GPA Calculator
 - **Westminster Honours Weighting**: Calculates final degree classification using the official 1/3 Level 5 + 2/3 Level 6 formula
 - **Module-Level Tracking**: Input marks and credits for each module
 - **40-Credit Module Support**: Automatically applies double weighting for projects like SDGP
@@ -14,27 +14,27 @@ SIRA is a lightweight, community-driven platform designed to help students succe
 - **Real-Time Calculations**: Instant GPA and honours class predictions
 - **Persistent State**: All data saved to browser localStorage automatically
 
-### 📚 Survival Toolkit
+###  Survival Toolkit
 - **Campus Portal Links**: Quick access to Appsanywhere, GitHub Student Pack, IIT Intranet
 - **Peer Resources**: Crowdsourced study materials, project guides, exam prep resources
 - **Community Contributions**: Links to legendary study notes and survival guides
 
-### 📝 Articles Hub
+###  Articles Hub
 - **Student-Written Guides**: Comprehensive articles by senior students sharing real-world advice
 - **Searchable & Categorized**: Browse by topic (General, Projects, Study Materials, Career Development)
 - **Easy Contribution**: Markdown-based article system with contributor guide
 - **No Backend Required**: 100% client-side, no database needed
 
-## 🚀 Tech Stack
+##  Tech Stack
 
-- **Frontend**: React 18+ with Vite (ultra-fast development)
+- **Frontend**: React 
 - **Routing**: React Router v6 for multi-page navigation
-- **Styling**: Tailwind CSS for modern, responsive design
-- **State Management**: React hooks + localStorage for persistence
-- **Language**: JavaScript ES6+ (no TypeScript, beginner-friendly)
+- **Styling**: Tailwind CSS 
+- **State Management**: React hooks + localStorage 
+- **Language**: JavaScript 
 - **Package Manager**: pnpm
 
-## 🛠️ Getting Started
+##  Getting Started
 
 ### Prerequisites
 - Node.js 16+ and pnpm installed
@@ -44,8 +44,8 @@ SIRA is a lightweight, community-driven platform designed to help students succe
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/sira-platform.git
-   cd sira-platform
+   git clone https://github.com/SamadhiViduravi/SIRA.git
+   cd SIRA
    ```
 
 2. **Install dependencies**:
@@ -68,7 +68,7 @@ SIRA is a lightweight, community-driven platform designed to help students succe
 pnpm build
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 sira-platform/
@@ -97,7 +97,7 @@ sira-platform/
 └── package.json                 # Dependencies
 ```
 
-## 📖 Usage
+##  Usage
 
 ### GPA Calculator
 
@@ -121,7 +121,7 @@ Want to share your knowledge? Check out `src/articles/README.md` for a complete 
 3. Register it in `src/articles/registry.js`
 4. Submit a Pull Request
 
-## 🤝 Contributing
+##  Contributing
 
 We welcome contributions from students and developers! Here's how to get involved:
 
@@ -140,7 +140,7 @@ We welcome contributions from students and developers! Here's how to get involve
 ### Article Contributions
 See `src/articles/README.md` for the full contributor guide.
 
-## 📋 Code Style
+##  Code Style
 
 - **JavaScript**: ES6+ with clear, descriptive naming
 - **Components**: Functional components with React hooks
@@ -148,7 +148,7 @@ See `src/articles/README.md` for the full contributor guide.
 - **Comments**: Meaningful comments explaining complex logic
 - **File naming**: camelCase for JavaScript files, kebab-case for route names
 
-## 🎨 Design
+##  Design
 
 SIRA features a clean, professional design with:
 - **Color Scheme**: Crimson red (#A30000) primary, white cards, light grey backgrounds
@@ -156,17 +156,17 @@ SIRA features a clean, professional design with:
 - **Responsive Design**: Mobile-first approach, adapts to all screen sizes
 - **Accessibility**: Semantic HTML, proper contrast ratios, keyboard navigation
 
-## 📝 License
+##  License
 
 This project is **free and open source** under the MIT License. See `LICENSE` file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Built by students who understand the student experience
 - Inspired by the spirit of open-source collaboration
 - Dedicated to the global student community
 
-## 📞 Support
+##  Support
 
 - **Questions?** Open an issue on GitHub
 - **Found a bug?** Report it with reproduction steps
@@ -174,12 +174,12 @@ This project is **free and open source** under the MIT License. See `LICENSE` fi
 
 ---
 
-**SIRA** © 2024 | Student Insights & Resource Archive | Built with ❤️ by and for students
+**SIRA** 
 
 ### Quick Links
 - [Contributor Guide](src/articles/README.md)
-- [Issues](https://github.com/yourusername/sira-platform/issues)
-- [Discussions](https://github.com/yourusername/sira-platform/discussions)
+- [Issues](https://github.com/SamadhiViduravi/SIRA/issues)
+- [Discussions](https://github.com/SamadhiViduravi/SIRA/discussions)
 
 ---
 
@@ -199,4 +199,4 @@ pnpm build
 pnpm preview
 ```
 
-Happy learning! 🚀
+Happy learning! 
