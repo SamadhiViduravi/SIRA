@@ -16,19 +16,19 @@ export const studentArticles = [
   {
     id: 'freshman-survival-guide',
     title: 'The Ultimate IIT Freshman Survival Guide',
-    author: 'Samadhi',
+    author: 'Samadhi Dissanayake',
     category: 'General',
     description: 'Your complete guide to surviving and thriving in your first year at university. From campus orientation to time management strategies.',
-    date: '2024-01-15',
+    date: '2026-06-15',
     component: FreshmanSurvivalGuide,
   },
   {
     id: 'project-tips-tricks',
     title: 'SDGP & Capstone Project Tips & Tricks',
-    author: 'Senior Developers',
+    author: 'Samadhi Dissanayake',
     category: 'Projects',
     description: 'Proven strategies for success in large-scale software development projects. Learn from past students who achieved distinction.',
-    date: '2024-01-10',
+    date: '2026-07-01',
     component: ProjectTipsAndTricks,
   },
 ];
