@@ -17,6 +17,12 @@ export function Navbar() {
                 GPA Calculator
               </Link>
               <Link
+                to="/programs"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-crimson-dark transition"
+              >
+                Programs
+              </Link>
+              <Link
                 to="/resources"
                 className="px-3 py-2 rounded-md text-sm font-medium hover:bg-crimson-dark transition"
               >

@@ -21,10 +21,23 @@ export function Home() {
 
   const calculateYearAverage = (modules) => {
     if (modules.length === 0) return 0;
-    const totalCredits = modules.reduce((sum, m) => sum + (m.credits || 0), 0);
-    if (totalCredits === 0) return 0;
-    const weightedSum = modules.reduce((sum, m) => sum + (m.mark || 0) * (m.credits || 0), 0);
-    return weightedSum / totalCredits;
+    
+    // Calculate with proper 40-credit weighting
+    let totalWeightedCredits = 0;
+    let totalWeightedMarks = 0;
+    
+    modules.forEach(m => {
+      const credits = m.credits || 20;
+      // 40-credit modules count as double weight (like 2 × 20-credit modules)
+      const weight = credits === 40 ? 2 : 1;
+      const effectiveCredits = 20 * weight;
+      
+      totalWeightedCredits += effectiveCredits;
+      totalWeightedMarks += (m.mark || 0) * effectiveCredits;
+    });
+    
+    if (totalWeightedCredits === 0) return 0;
+    return totalWeightedMarks / totalWeightedCredits;
   };
 
   const calculateGPA = (percentage) => {
@@ -110,10 +123,22 @@ export function Home() {
           </div>
         </div>
 
-        {/* Level 4 Warning */}
+        {/* Info Section */}
         {selectedLevel === 'level4' && (
           <div className="alert alert-warning">
             ⚠️ Level 4 grades do not contribute to your final Westminster Honours classification. This data is for reference only.
+          </div>
+        )}
+
+        {(selectedLevel === 'level5' || selectedLevel === 'level6') && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h3 className="font-semibold text-blue-900 mb-3">Quick Guide</h3>
+            <ul className="space-y-2 text-sm text-blue-800">
+              <li><strong>Standard modules:</strong> 20 credits (normal weight)</li>
+              <li><strong>Project modules (SDGP in Year 2, FYP in Year 4):</strong> 40 credits (2x weight)</li>
+              <li><strong>40-credit modules:</strong> Highlighted in orange, count as double-weighted in calculations</li>
+              <li><strong>Final classification:</strong> (Level 5 Average × 1/3) + (Level 6 Average × 2/3)</li>
+            </ul>
           </div>
         )}
 
@@ -135,43 +160,50 @@ export function Home() {
             <p className="text-gray-500 text-center py-8">No modules added yet. Click "Add Module" to get started.</p>
           ) : (
             <div className="space-y-4">
-              {currentLevelData[selectedLevel].map(module => (
-                <div key={module.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center p-4 bg-gray-50 rounded-md border border-gray-200">
-                  <input
-                    type="text"
-                    placeholder="Module Code (e.g., CSA)"
-                    value={module.name || ''}
-                    onChange={(e) => updateModule(module.id, 'name', e.target.value)}
-                    className="input-field"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Mark (%)"
-                    value={module.mark || ''}
-                    onChange={(e) => updateModule(module.id, 'mark', e.target.value)}
-                    min="0"
-                    max="100"
-                    className="input-field"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Credits"
-                    value={module.credits || 20}
-                    onChange={(e) => updateModule(module.id, 'credits', e.target.value)}
-                    min="0"
-                    className="input-field"
-                  />
-                  <div className="text-gray-700 font-medium">
-                    {((module.mark || 0) * (module.credits || 0)).toFixed(0)}
+              {currentLevelData[selectedLevel].map(module => {
+                const credits = module.credits || 20;
+                const isDoubleWeighted = credits === 40;
+                return (
+                  <div key={module.id} className={`grid grid-cols-1 md:grid-cols-6 gap-4 items-center p-4 rounded-md border ${isDoubleWeighted ? 'bg-orange-50 border-orange-300' : 'bg-gray-50 border-gray-200'}`}>
+                    <input
+                      type="text"
+                      placeholder="Module Code (e.g., CSA)"
+                      value={module.name || ''}
+                      onChange={(e) => updateModule(module.id, 'name', e.target.value)}
+                      className="input-field"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Mark (%)"
+                      value={module.mark || ''}
+                      onChange={(e) => updateModule(module.id, 'mark', e.target.value)}
+                      min="0"
+                      max="100"
+                      className="input-field"
+                    />
+                    <select
+                      value={credits}
+                      onChange={(e) => updateModule(module.id, 'credits', e.target.value)}
+                      className="input-field"
+                    >
+                      <option value="20">20 Credits (Normal)</option>
+                      <option value="40">40 Credits (Double)</option>
+                    </select>
+                    <div className={`font-medium ${isDoubleWeighted ? 'text-orange-700' : 'text-gray-700'}`}>
+                      Weight: {isDoubleWeighted ? '2x' : '1x'}
+                    </div>
+                    <div className="text-gray-700 font-medium">
+                      {((module.mark || 0) * credits).toFixed(0)}
+                    </div>
+                    <button
+                      onClick={() => removeModule(module.id)}
+                      className="btn-secondary"
+                    >
+                      Remove
+                    </button>
                   </div>
-                  <button
-                    onClick={() => removeModule(module.id)}
-                    className="btn-secondary"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
 
@@ -189,30 +221,71 @@ export function Home() {
 
         {/* Final Classification */}
         {level5Data.length > 0 && level6Data.length > 0 && (
-          <div className="card bg-gradient-to-r from-crimson-dark to-crimson text-white">
-            <h2 className="text-2xl font-bold mb-6">Final Degree Classification</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div>
-                <p className="text-sm opacity-90">Level 5 Average</p>
-                <p className="text-3xl font-bold">{level5Avg.toFixed(2)}%</p>
+          <div className="space-y-6">
+            <div className="card bg-gradient-to-r from-crimson-dark to-crimson text-white">
+              <h2 className="text-2xl font-bold mb-8">Your Predicted Degree Classification</h2>
+              
+              {/* Main Classification Display */}
+              <div className="bg-white/10 rounded-lg p-8 mb-8 text-center">
+                <p className="text-white/80 text-sm mb-2">Honours Classification</p>
+                <p className="text-5xl font-bold mb-4">{finalClass}</p>
+                <p className="text-xl font-semibold">{finalMark.toFixed(2)}%</p>
               </div>
-              <div>
-                <p className="text-sm opacity-90">Level 6 Average</p>
-                <p className="text-3xl font-bold">{level6Avg.toFixed(2)}%</p>
+              
+              {/* Breakdown Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-sm opacity-80 mb-1">Level 5 Average</p>
+                  <p className="text-2xl font-bold">{level5Avg.toFixed(2)}%</p>
+                  <p className="text-xs opacity-60 mt-1">Weight: 1/3</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-sm opacity-80 mb-1">Level 6 Average</p>
+                  <p className="text-2xl font-bold">{level6Avg.toFixed(2)}%</p>
+                  <p className="text-xs opacity-60 mt-1">Weight: 2/3</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-sm opacity-80 mb-1">Predicted Final Mark</p>
+                  <p className="text-2xl font-bold">{finalMark.toFixed(2)}%</p>
+                  <p className="text-xs opacity-60 mt-1">Weighted Sum</p>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <p className="text-sm opacity-80 mb-1">GPA (US Scale)</p>
+                  <p className="text-2xl font-bold">{finalGPA.toFixed(2)}</p>
+                  <p className="text-xs opacity-60 mt-1">4.0 Scale</p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm opacity-90">Predicted Final Mark</p>
-                <p className="text-3xl font-bold">{finalMark.toFixed(2)}%</p>
-              </div>
-              <div>
-                <p className="text-sm opacity-90">GPA (US Scale)</p>
-                <p className="text-3xl font-bold">{finalGPA.toFixed(2)}</p>
+              
+              {/* Formula */}
+              <div className="mt-8 pt-6 border-t border-white/20">
+                <p className="text-xs opacity-70 mb-2">Westminster Honours Formula</p>
+                <p className="text-sm font-mono">
+                  Final Mark = (L5 Average × <span className="bg-white/10 px-2 py-1 rounded">1/3</span>) + (L6 Average × <span className="bg-white/10 px-2 py-1 rounded">2/3</span>)
+                </p>
               </div>
             </div>
-            <div className="mt-6 pt-6 border-t border-white/30">
-              <p className="text-sm opacity-90 mb-1">Honours Classification</p>
-              <p className="text-4xl font-bold">{finalClass}</p>
-              <p className="text-xs opacity-75 mt-2">Formula: (L5 × 1/3) + (L6 × 2/3)</p>
+
+            {/* Classification Ranges */}
+            <div className="card">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Honours Classification Ranges</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                  <p className="font-semibold text-emerald-900">First Class (1st)</p>
+                  <p className="text-2xl font-bold text-emerald-700">70% - 100%</p>
+                </div>
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-semibold text-blue-900">Upper Second (2:1)</p>
+                  <p className="text-2xl font-bold text-blue-700">60% - 69%</p>
+                </div>
+                <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                  <p className="font-semibold text-amber-900">Lower Second (2:2)</p>
+                  <p className="text-2xl font-bold text-amber-700">50% - 59%</p>
+                </div>
+                <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
+                  <p className="font-semibold text-orange-900">Third Class (3rd)</p>
+                  <p className="text-2xl font-bold text-orange-700">40% - 49%</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
