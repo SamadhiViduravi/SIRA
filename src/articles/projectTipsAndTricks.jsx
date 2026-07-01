@@ -3,7 +3,7 @@ export default function ProjectTipsAndTricks() {
     <article className="max-w-3xl mx-auto px-4 py-8 prose prose-lg">
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-2">SDGP & Capstone Project Tips & Tricks</h1>
-        <p className="text-gray-600">By Senior Developers • January 10, 2024</p>
+        <p className="text-gray-600">By Senior Developers • July 1, 2025</p>
       </div>
 
       <div className="space-y-6 text-gray-700">

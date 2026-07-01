@@ -1,18 +1,6 @@
 export function Resources() {
   const resourceLinks = [
     {
-      title: 'Appsanywhere',
-      description: 'Access university software and applications remotely',
-      url: 'https://www.appsanywhere.com',
-      icon: '🖥️',
-    },
-    {
-      title: 'GitHub Student Pack',
-      description: 'Free developer tools and services for students',
-      url: 'https://education.github.com/pack',
-      icon: '🎓',
-    },
-    {
       title: 'IIT Intranet',
       description: 'University IT services and support portal',
       url: '#',
@@ -24,6 +12,21 @@ export function Resources() {
       url: '#',
       icon: '📚',
     },
+  ];
+  const outsideresource = [
+    {
+      title: 'Appsanywhere',
+      description: 'Access university software and applications remotely',
+      url: 'https://www.appsanywhere.com',
+      icon: '🖥️',
+    },
+    {
+      title: 'GitHub Student Pack',
+      description: 'Free developer tools and services for students',
+      url: 'https://education.github.com/pack',
+      icon: '🎓',
+    },
+    
   ];
 
   const survivalResources = [
@@ -73,6 +76,26 @@ export function Resources() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Campus Portals</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {resourceLinks.map((resource, idx) => (
+              <a
+                key={idx}
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card hover:shadow-lg transition transform hover:-translate-y-1 text-center"
+              >
+                <div className="text-4xl mb-3">{resource.icon}</div>
+                <h3 className="font-semibold text-gray-900 mb-2">{resource.title}</h3>
+                <p className="text-sm text-gray-600">{resource.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Campus  */}
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Outside Resources</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {outsideresource.map((resource, idx) => (
               <a
                 key={idx}
                 href={resource.url}
