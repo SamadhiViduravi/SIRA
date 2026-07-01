@@ -107,7 +107,7 @@ export function Home() {
         <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Academic Level</h2>
           <div className="flex gap-4 flex-wrap">
-            {['level4', 'level5', 'level6'].map(level => (
+            {['level4', 'level5', 'level6', 'overall'].map(level => (
               <button
                 key={level}
                 onClick={() => setSelectedLevel(level)}
@@ -117,7 +117,7 @@ export function Home() {
                     : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                 }`}
               >
-                {level.charAt(5).toUpperCase() + level.slice(6).toUpperCase()}
+                {level === 'overall' ? 'Overall Degree' : level.charAt(5).toUpperCase() + level.slice(6).toUpperCase()}
               </button>
             ))}
           </div>
@@ -142,23 +142,39 @@ export function Home() {
           </div>
         )}
 
-        {/* Module Input Form */}
-        <div className="card">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">
-              {selectedLevel === 'level4' ? 'Level 4' : selectedLevel === 'level5' ? 'Level 5 (Year 1)' : 'Level 6 (Final Year)'} Modules
-            </h2>
-            <button
-              onClick={addModule}
-              className="btn-primary"
-            >
-              + Add Module
-            </button>
+        {selectedLevel === 'overall' && (
+          <div className="bg-purple-50 border border-purple-200 rounded-lg p-6">
+            <h3 className="font-semibold text-purple-900 mb-3">Overall Degree GPA Summary</h3>
+            <p className="text-sm text-purple-800 mb-3">
+              View your complete academic journey across all levels and get your final degree classification.
+            </p>
+            <ul className="space-y-2 text-sm text-purple-800">
+              <li><strong>Level 4 (Year 1):</strong> Foundation year - for reference only</li>
+              <li><strong>Level 5 (Year 2):</strong> Weighted at 1/3 of final classification</li>
+              <li><strong>Level 6 (Final Year):</strong> Weighted at 2/3 of final classification</li>
+              <li><strong>Overall GPA:</strong> Combines all levels for your final honours classification</li>
+            </ul>
           </div>
+        )}
 
-          {currentLevelData[selectedLevel].length === 0 ? (
-            <p className="text-gray-500 text-center py-8">No modules added yet. Click "Add Module" to get started.</p>
-          ) : (
+        {/* Module Input Form or Overall Summary */}
+        {selectedLevel !== 'overall' ? (
+          <div className="card">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">
+                {selectedLevel === 'level4' ? 'Level 4' : selectedLevel === 'level5' ? 'Level 5 (Year 1)' : 'Level 6 (Final Year)'} Modules
+              </h2>
+              <button
+                onClick={addModule}
+                className="btn-primary"
+              >
+                + Add Module
+              </button>
+            </div>
+
+            {currentLevelData[selectedLevel].length === 0 ? (
+              <p className="text-gray-500 text-center py-8">No modules added yet. Click "Add Module" to get started.</p>
+            ) : (
             <div className="space-y-4">
               {currentLevelData[selectedLevel].map(module => {
                 const credits = module.credits || 20;
@@ -207,17 +223,70 @@ export function Home() {
             </div>
           )}
 
-          {selectedLevel !== 'level4' && currentLevelData[selectedLevel].length > 0 && (
-            <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
-              <p className="text-sm text-gray-700">
-                <span className="font-semibold">Year Average:</span>{' '}
-                <span className="text-lg font-bold text-crimson">
-                  {(selectedLevel === 'level5' ? level5Avg : level6Avg).toFixed(2)}%
-                </span>
-              </p>
+            {selectedLevel !== 'level4' && currentLevelData[selectedLevel].length > 0 && (
+              <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Year Average:</span>{' '}
+                  <span className="text-lg font-bold text-crimson">
+                    {(selectedLevel === 'level5' ? level5Avg : level6Avg).toFixed(2)}%
+                  </span>
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          /* Overall Degree Summary */
+          <div className="space-y-6">
+            {/* Level Summaries */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Level 4 Summary */}
+              <div className="card">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Level 4 Summary</h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">Modules: <span className="font-semibold">{level4Data.length}</span></p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {level4Data.length > 0 ? calculateYearAverage(level4Data).toFixed(2) : '--'}%
+                  </p>
+                  <p className="text-xs text-gray-500 italic">For reference only</p>
+                </div>
+              </div>
+
+              {/* Level 5 Summary */}
+              <div className="card border-l-4 border-l-blue-500">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Level 5 (Year 2)</h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">Modules: <span className="font-semibold">{level5Data.length}</span></p>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {level5Data.length > 0 ? level5Avg.toFixed(2) : '--'}%
+                  </p>
+                  <p className="text-xs text-gray-500">Weight: 1/3 of final grade</p>
+                </div>
+              </div>
+
+              {/* Level 6 Summary */}
+              <div className="card border-l-4 border-l-green-500">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Level 6 (Final Year)</h3>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600">Modules: <span className="font-semibold">{level6Data.length}</span></p>
+                  <p className="text-2xl font-bold text-green-600">
+                    {level6Data.length > 0 ? level6Avg.toFixed(2) : '--'}%
+                  </p>
+                  <p className="text-xs text-gray-500">Weight: 2/3 of final grade</p>
+                </div>
+              </div>
             </div>
-          )}
-        </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-4 flex-wrap">
+              <button
+                onClick={clearAllData}
+                className="px-6 py-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-md font-medium transition border border-red-200"
+              >
+                Clear All Data
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Final Classification */}
         {level5Data.length > 0 && level6Data.length > 0 && (
