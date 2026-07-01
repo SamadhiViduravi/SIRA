@@ -135,7 +135,7 @@ export function Home() {
             <h3 className="font-semibold text-blue-900 mb-3">Quick Guide</h3>
             <ul className="space-y-2 text-sm text-blue-800">
               <li><strong>Standard modules:</strong> 20 credits (normal weight)</li>
-              <li><strong>Project modules (SDGP in Year 2, FYP in Year 4):</strong> 40 credits (2x weight)</li>
+              <li><strong>Project modules ( FYP in Year 4):</strong> 40 credits (2x weight)</li>
               <li><strong>40-credit modules:</strong> Highlighted in orange, count as double-weighted in calculations</li>
               <li><strong>Final classification:</strong> (Level 5 Average × 1/3) + (Level 6 Average × 2/3)</li>
             </ul>
