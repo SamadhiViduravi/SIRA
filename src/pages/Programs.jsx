@@ -237,7 +237,7 @@ export function Programs() {
           <div className="bg-emerald-50 border-l-4 border-emerald-500 rounded p-6">
             <h4 className="font-semibold text-emerald-900 mb-2">40-Credit Modules</h4>
             <p className="text-sm text-gray-700">
-              Project modules like SDGP and FYP count as double-weighted (40 credits = 2× 20-credit modules).
+              Project modules like  FYP count as double-weighted (40 credits = 2× 20-credit modules).
             </p>
           </div>
           <div className="bg-blue-50 border-l-4 border-blue-500 rounded p-6">
